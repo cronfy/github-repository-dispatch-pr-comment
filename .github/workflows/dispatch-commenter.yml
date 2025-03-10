@@ -19,6 +19,13 @@ jobs:
        uses: actions/checkout@v4
        with:
         ref: ${{ env.SHA }}
-     - name: List files
+     - name: Download file
        run: |
-        ls
+         curl -q -o file.json https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json
+     - name: Build report
+       run: |
+         echo "File length is `wc -l file.json` lines" > report.out
+     - name: Print report
+       run: |
+        cat report.out
+
