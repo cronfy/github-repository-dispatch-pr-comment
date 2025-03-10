@@ -14,11 +14,11 @@ jobs:
     steps:
      - name: Print info
        run: |
-        echo "Your PR is ${PR}, SHA is ${SHA}"
+        echo "Your PR is ${PR_NUMBER}, SHA is ${SHA}"
      - name: Checkout
        uses: actions/checkout@v4
        with:
-        ref: ${SHA}
+        ref: ${{ env.SHA }}
      - name: List files
        run: |
         ls
