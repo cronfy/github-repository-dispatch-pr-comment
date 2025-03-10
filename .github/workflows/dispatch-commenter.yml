@@ -24,7 +24,7 @@ jobs:
          curl -q -o file.json https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json
      - name: Build report
        run: |
-         echo "## Files report\n\n * File \`file.json\` has `wc -l file.json | awk "{print $1}"` lines.\n\nFiles:\n\n\`\`\`\n`ls`\n\`\`\`" > report.out
+         echo -e "## Files report\n\n * File \`file.json\` has `wc -l file.json | awk "{print $1}"` lines.\n\nFiles:\n\n\`\`\`\n`ls`\n\`\`\`" > report.out
      - name: Print report
        run: |
         cat report.out
