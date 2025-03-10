@@ -32,6 +32,6 @@ jobs:
        uses: marocchino/sticky-pull-request-comment@v2
        with:
          header: test-coverage
-         number: ${{ PR_NUMBER }}
+         number: ${{ env.PR_NUMBER }}
          message: |
-           Last commit is ${{ github.sha }}
+           Requested comment for commit with ${{ env.SHA }}
