@@ -8,7 +8,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ github.event.client_payload.pr_number }}
+      SHA: ${{ github.event.client_payload.sha }}
     steps:
-      - name: dispatch trigger
-        run: |
-          echo "repository_dispatch triggered-2"
+     - name: Print info
+       run: |
+        echo "Your PR is ${PR}, SHA is ${SHA}"
+     - name: Checkout
+       uses: actions/checkout@v4
+       with:
+        ref: ${SHA}
+     - name:
+       run: |
+        ls
