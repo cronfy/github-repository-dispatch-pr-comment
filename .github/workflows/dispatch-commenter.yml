@@ -28,4 +28,10 @@ jobs:
      - name: Print report
        run: |
         cat report.out
-
+     - name: Add comment to PR
+       uses: marocchino/sticky-pull-request-comment@v2
+       with:
+         header: test-coverage
+         number: ${{ PR_NUMBER }}
+         message: |
+           Last commit is ${{ github.sha }}
