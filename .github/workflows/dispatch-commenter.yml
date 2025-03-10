@@ -1,0 +1,12 @@
+name: Dispatch Commenter
+
+on: [repository_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: dispatch trigger
+        if: github.event.action == "TEST_COVERAGE_READY"
+        run: |
+          echo "repository_dispatch triggered"
