@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: dispatch trigger
         run: |
-          echo "repository_dispatch triggered"
+          echo "repository_dispatch triggered-2"
