@@ -19,6 +19,6 @@ jobs:
        uses: actions/checkout@v4
        with:
         ref: ${SHA}
-     - name:
+     - name: List files
        run: |
         ls
