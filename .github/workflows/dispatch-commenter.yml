@@ -26,10 +26,8 @@ jobs:
       TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
     steps:
       - name: Get coverage from master
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-${{ env.TARGET_BRANCH_SHA }}
-          github-token: ${{ secrets.GH_SELF_ACCESS }}
+        run: |
+          gh run download --name="coverage-${{ env.TARGET_BRANCH_SHA }}"
       - name: Print report
         run: |
           head -n 1 coverage.out
