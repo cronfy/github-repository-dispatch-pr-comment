@@ -29,6 +29,8 @@ jobs:
         run: |
           gh run download --name="coverage-${{ env.TARGET_BRANCH_SHA }}"
       - name: Print report
+        env:
+          GH_TOKEN: ${{ secrets.GH_SELF_ACCESS }}
         run: |
           head -n 1 coverage.out
 #      - name: Print info
