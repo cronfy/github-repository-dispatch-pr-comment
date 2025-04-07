@@ -1,4 +1,17 @@
-name: Dispatch Commenter
+name: Compare test coverage with master
+
+# POST https://api.github.com/repos/cronfy/github-repository-dispatch-pr-comment/dispatches
+# Authorization: token ...
+# Content-Type: application/json
+# Accept: application/vnd.github.everest-preview+json
+#
+# {
+#   "event_type":  "test-coverage-ready",
+#   "client_payload": {
+#     "pr_number": "4",
+#     "target_branch_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
+#   }
+# }
 
 on:
   repository_dispatch:
@@ -10,27 +23,35 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_NUMBER: ${{ github.event.client_payload.pr_number }}
-      SHA: ${{ github.event.client_payload.sha }}
+      TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
     steps:
-     - name: Print info
-       run: |
-        echo "Your PR is ${PR_NUMBER}, SHA is ${SHA}"
-     - name: Checkout
-       uses: actions/checkout@v4
-       with:
-        ref: ${{ env.SHA }}
-     - name: Download file
-       run: |
-         curl -q -o file.json https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json
-     - name: Build report
-       run: |
-         echo -e "## Files report\n\n * File \`file.json\` has `wc -l file.json | awk "{print $1}"` lines.\n\nFiles:\n\n\`\`\`\n`ls`\n\`\`\`" > report.out
-     - name: Print report
-       run: |
-        cat report.out
-     - name: Add comment to PR
-       uses: marocchino/sticky-pull-request-comment@v2
-       with:
-         header: test-coverage
-         number: ${{ env.PR_NUMBER }}
-         path: report.out
+      - name: Get coverage from master
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-${{ env.TARGET_BRANCH_SHA }}
+          github-token: ${{ secrets.GH_SELF_ACCESS }}
+      - name: Print report
+        run: |
+          head -n 1 coverage.out
+#      - name: Print info
+#        run: |
+#         echo "Your PR is ${PR_NUMBER}, SHA is ${SHA}"
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#        ref: ${{ env.SHA }}
+#      - name: Download file
+#        run: |
+#          curl -q -o file.json https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json
+#      - name: Build report
+#        run: |
+#          echo -e "## Files report\n\n * File \`file.json\` has `wc -l file.json | awk "{print $1}"` lines.\n\nFiles:\n\n\`\`\`\n`ls`\n\`\`\`" > report.out
+#      - name: Print report
+#        run: |
+#          cat report.out
+#      - name: Add comment to PR
+#        uses: marocchino/sticky-pull-request-comment@v2
+#        with:
+#          header: test-coverage
+#          number: ${{ env.PR_NUMBER }}
+#          path: report.out
