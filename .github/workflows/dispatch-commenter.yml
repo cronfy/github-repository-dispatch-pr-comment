@@ -9,6 +9,7 @@ name: Compare test coverage with master
 #   "event_type":  "test-coverage-ready",
 #   "client_payload": {
 #     "pr_number": "4",
+#     "sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #     "target_branch_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #   }
 # }
@@ -23,10 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_NUMBER: ${{ github.event.client_payload.pr_number }}
+      SHA: ${{ github.event.client_payload.target_branch_sha }}
       TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SHA }}
 
       - name: Get coverage from master
         env:
