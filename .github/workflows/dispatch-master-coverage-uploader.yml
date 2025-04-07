@@ -1,0 +1,35 @@
+name: Upload coverage to master
+
+# POST https://api.github.com/repos/cronfy/github-repository-dispatch-pr-comment/dispatches
+# Authorization: token ...
+# Content-Type: application/json
+# Accept: application/vnd.github.everest-preview+json
+#
+# {
+#   "event_type":  "master-coverage-ready",
+#   "client_payload": {
+#     "sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
+#   }
+# }
+
+on:
+  repository_dispatch:
+    types:
+      - master-coverage-ready
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SHA: ${{ github.event.client_payload.sha }}
+    steps:
+      - name: Download coverage from Buildkite [WIP]
+        # this will be replaced with the real download from BuildKite
+        run: |
+          echo Coverage for sha ${{ env.SHA }} > coverage.out
+          curl -sS https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json >> coverage.out
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ env.SHA }}
+          path: coverage.out
