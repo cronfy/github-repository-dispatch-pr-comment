@@ -26,11 +26,11 @@ jobs:
       TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
     steps:
       - name: Get coverage from master
+        env:
+          GH_TOKEN: ${{ secrets.GH_SELF_ACCESS }}
         run: |
           gh run download --name="coverage-${{ env.TARGET_BRANCH_SHA }}"
       - name: Print report
-        env:
-          GH_TOKEN: ${{ secrets.GH_SELF_ACCESS }}
         run: |
           head -n 1 coverage.out
 #      - name: Print info
