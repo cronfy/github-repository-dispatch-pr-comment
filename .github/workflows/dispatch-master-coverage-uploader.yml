@@ -33,7 +33,9 @@ jobs:
           BUILDKITE_API_TOKEN: ${{ secrets.BUILDKITE_API_TOKEN }}
         run: |
           ./.github/buildkite-download-coverage-artifacts.sh ${{ env.BUILDKITE_BUILD_NUMBER }} ./buildkite-coverage 
-          ls -la buildkite-coverage
+          ls -la
+          pwd
+          ls -la ./buildkite-coverage
 
       - name: Upload buildkite coverage artifact
         uses: actions/upload-artifact@v4
