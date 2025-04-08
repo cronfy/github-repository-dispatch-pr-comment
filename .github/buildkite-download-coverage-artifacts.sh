@@ -14,7 +14,7 @@ BUILD_NUMBER=$1
 ORG_SLUG="talon-dot-one"
 PIPELINE_SLUG="talon-service"
 BUILDKITE_API_URL="https://api.buildkite.com/v2/organizations/$ORG_SLUG/pipelines/$PIPELINE_SLUG/builds/$BUILD_NUMBER/artifacts"
-DOWNLOAD_DIR="./artifacts"
+DOWNLOAD_DIR="$2"
 
 mkdir -p "$DOWNLOAD_DIR"
 
