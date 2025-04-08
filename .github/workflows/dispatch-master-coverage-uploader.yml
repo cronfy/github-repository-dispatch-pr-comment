@@ -27,8 +27,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ env.BUILD_SHA }}
 
       - name: Get coverage from buildkite build
         env:
