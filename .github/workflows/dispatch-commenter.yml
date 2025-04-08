@@ -8,7 +8,8 @@ name: Compare test coverage with master
 # {
 #   "event_type":  "test-coverage-ready",
 #   "client_payload": {
-#     "pr_number": "4",
+#     "pr_number": "544",
+#     "buildkite_build_number": "123321",
 #     "sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #     "target_branch_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #   }
@@ -26,6 +27,7 @@ jobs:
       PR_NUMBER: ${{ github.event.client_payload.pr_number }}
       SHA: ${{ github.event.client_payload.target_branch_sha }}
       TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
+      BUILDKITE_BUILD_NUMBER: ${{ secrets.buildkite_build_number }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -37,6 +39,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_SELF_ACCESS }}
         run: |
           gh run download --name="coverage-${{ env.TARGET_BRANCH_SHA }}"
+
+      - name: Get coverage buildkite build
+        env:
+          BUILDKITE_API_TOKEN: ${{ secrets.BUILDKITE_API_TOKEN }}
+        run: |
+          ./.github/buildkite-download-coverage-artifacts.sh ${{ env.BUILDKITE_BUILD_NUMBER }} ./buildkite-coverage 
+          ls -la buildkite-coverage
 
       - name: Print report
         run: |
