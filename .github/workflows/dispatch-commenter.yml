@@ -10,7 +10,7 @@ name: Compare test coverage with master
 #   "client_payload": {
 #     "pr_number": "544",
 #     "buildkite_build_number": "123321",
-#     "sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
+#     "build_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #     "target_branch_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #   }
 # }
