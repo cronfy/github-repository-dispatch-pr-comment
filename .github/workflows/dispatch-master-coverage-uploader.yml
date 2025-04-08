@@ -49,5 +49,5 @@ jobs:
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: total-coverage-${{ env.BUILD_SHA }}
+          name: coverage-${{ env.BUILD_SHA }}
           path: coverage.out
