@@ -8,7 +8,8 @@ name: Upload coverage to master
 # {
 #   "event_type":  "master-coverage-ready",
 #   "client_payload": {
-#     "sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
+#     "buildkite_build_number": "123321"
+#     "build_sha": "5de6ee8cd2d9a4927cd11124c33a6aa7e985ab64"
 #   }
 # }
 
@@ -21,15 +22,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SHA: ${{ github.event.client_payload.sha }}
+      BUILDKITE_BUILD_NUMBER: ${{ github.event.client_payload.buildkite_build_number }}
+      BUILD_SHA: ${{ github.event.client_payload.build_sha }}
     steps:
-      - name: Download coverage from Buildkite [WIP]
-        # this will be replaced with the real download from BuildKite
+      - name: Get coverage from buildkite build
+        env:
+          BUILDKITE_API_TOKEN: ${{ secrets.BUILDKITE_API_TOKEN }}
         run: |
-          echo Coverage for sha ${{ env.SHA }} > coverage.out
-          curl -sS https://file-examples.com/storage/fe6a71582967c9a269c25cd/2017/02/file_example_JSON_1kb.json >> coverage.out
-      - name: Upload coverage artifact
+          ./.github/buildkite-download-coverage-artifacts.sh ${{ env.BUILDKITE_BUILD_NUMBER }} ./buildkite-coverage 
+          ls -la buildkite-coverage
+
+      - name: Upload buildkite coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ env.SHA }}
-          path: coverage.out
+          name: buildkite-coverage-${{ env.BUILD_SHA }}
+          path: buildkite-coverage/

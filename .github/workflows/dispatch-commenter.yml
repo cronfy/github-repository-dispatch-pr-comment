@@ -25,14 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PR_NUMBER: ${{ github.event.client_payload.pr_number }}
-      SHA: ${{ github.event.client_payload.target_branch_sha }}
+      BUILD_SHA: ${{ github.event.client_payload.build_sha }}
       TARGET_BRANCH_SHA: ${{ github.event.client_payload.target_branch_sha }}
       BUILDKITE_BUILD_NUMBER: ${{ secrets.buildkite_build_number }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.SHA }}
+          ref: ${{ env.BUILD_SHA }}
 
       - name: Get coverage from master
         env:
