@@ -24,7 +24,7 @@ function requestGetArtifacts() {
 	curl -s -H "Authorization: Bearer $BUILDKITE_API_TOKEN" "$BUILDKITE_API_URL"
 }
 
-# Liists artifacts in 2 columns: download_url and filename
+# Lists artifacts in 2 columns: download_url and filename
 function listArtifacts() {
     requestGetArtifacts | jq -r '.[] | select(.filename | test("\\.coverage\\.out$")) | "\(.download_url) \(.filename)" '
 }
